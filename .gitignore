@@ -1,0 +1,22 @@
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+tfplan
+
+# AWS provider binary
+.terraform/providers/
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Exclude sensitive files
+*.pem
+*.key
+credentials.json
+*.secret
+
+# OS files
+.DS_Store
+Thumbs.db
