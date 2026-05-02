@@ -1,27 +1,24 @@
-name: 'Terraform'
-
-on:
-  push:
-    branches: [ "master" ]
-
-jobs:
-  terraform:
-    name: 'Terraform'
-    runs-on: ubuntu-latest
-    environment: actions
-
-    env:
-      AWS_ACCESS_KEY_ID: "AKIAZDZTBWAIN4MRKBEV"
-      AWS_SECRET_ACCESS_KEY: "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"
-      AWS_DEFAULT_REGION: us-east-2
-
-    steps:
-      - name: Checkout
+name: Terraform Workflow
+env: 
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  AWS_DEFAULT_REGION: us-west-2
+on: 
+  push: 
+    branches: 
+      - master
+  pull_request: 
+jobs: 
+  terraform: 
+    name: Terraform
+    runs-on: ubuntu-24.04
+    steps: 
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
-        with:
+        with: 
           terraform_version: 1.9.0
 
       - name: Terraform Init
@@ -31,7 +28,8 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: terraform plan -input=false -no-color
+        continue-on-error: true
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'

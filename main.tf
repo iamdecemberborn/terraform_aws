@@ -1,20 +1,33 @@
-resource "aws_s3_bucket" "mybucket" {
-  bucket = "awsbucketcreatedviaterrafrom"
-
-  tags = {
-    Name        = "MyBucket"
-    Environment = "Dev"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.31"
+    }
   }
+}
+
+provider "aws" {
+  region = "us-west-2"
+}
+
+variable "bucket_name" {
+  description = "Name of the S3 bucket"
+  default     = "awsbucketcreatedviaterrafrom"
+}
+
+resource "aws_s3_bucket" "mybucket" {
+  bucket = var.bucket_name
 }
 
 resource "aws_s3_object" "sample_csv" {
   bucket = aws_s3_bucket.mybucket.id
-  key    = "sample.csv"
-  source = "sample.csv"
+  key    = "sample.blew"
+  source = "sample.blew"
 }
 
 resource "aws_s3_object" "products_csv" {
   bucket = aws_s3_bucket.mybucket.id
-  key    = "products.csv"
-  source = "products.csv"
+  key    = "products.blew"
+  source = "products.blew"
 }
