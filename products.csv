@@ -4,7 +4,22 @@ id,product,price,quantity
 3,Keyboard,79.99,30
 4,Monitor,299.99,20
 5,Headphones,149.99,25
-6,mobile,100,23
-7,ww,23,34,
-8,qq,110,111
-9
+6,Mobile,100.00,23
+7,Webcam,79.95,34
+8,USB Hub,45.50,110
+9,Desk Lamp,55.00,42
+10,Phone Stand,19.99,85
+11,External SSD,129.99,15
+12,USB-C Cable,12.99,200
+13,HDMI Cable,8.99,150
+14,Laptop Stand,39.99,28
+15,Mousepad,14.99,120
+16,Wireless Charger,34.99,60
+17,Screen Protector,9.99,300
+18,Cooling Pad,49.99,18
+19,Desk Organizer,24.99,75
+20,Cable Management Kit,16.99,95
+21,Mechanical Switch,89.99,22
+22,Monitor Arm,119.99,12
+23,RGB LED Strip,27.99,45
+24,Portable Speaker,89.99,35
