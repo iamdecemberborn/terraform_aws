@@ -3,53 +3,36 @@ name: 'Terraform'
 on:
   push:
     branches: [ "master" ]
-  pull_request:
-
-permissions:
-  contents: read
 
 jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
-    # Remove the environment: production line unless you have configured approval gates in GitHub
+    environment: actions
 
-    defaults:
-      run:
-        shell: bash
+    env:
+      AWS_ACCESS_KEY_ID: "AKIAZDZTBWAIN4MRKBEV"
+      AWS_SECRET_ACCESS_KEY: "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"
+      AWS_DEFAULT_REGION: us-east-2
 
     steps:
-    # Checkout the repository
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    # Configure AWS Credentials
-    - name: Configure AWS Credentials
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-west-2
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.9.0
 
-    # Install Terraform
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.9.0
+      - name: Terraform Init
+        run: terraform init
 
-    # Terraform Init
-    - name: Terraform Init
-      run: terraform init
+      - name: Terraform Validate
+        run: terraform validate
 
-    # Terraform Format Check
-    - name: Terraform Format
-      run: terraform fmt -check
+      - name: Terraform Plan
+        run: terraform plan -input=false
 
-    # Terraform Plan
-    - name: Terraform Plan
-      run: terraform plan -input=false
-
-    # Terraform Apply (only on push to master)
-    - name: Terraform Apply
-      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+      - name: Terraform Apply
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        run: terraform apply -auto-approve -input=false
